@@ -1,0 +1,82 @@
+table fact_inventory
+	lineageTag: cf397bce-f6da-462b-beba-dd2c3df0f594
+
+	column inventory_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e064b12-0f5f-4685-b15a-4bf280411a54
+		summarizeBy: sum
+		sourceColumn: inventory_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3549fa2e-2777-441d-afbb-2b785a2427ae
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d0b9e98-21c4-4d35-9e88-237a2d632417
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 40262d8f-61da-479e-a900-47cef99b9580
+		summarizeBy: none
+		sourceColumn: facility_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_level
+		dataType: int64
+		formatString: 0
+		lineageTag: fdcacca9-375d-4267-a0aa-edb9fe367d95
+		summarizeBy: sum
+		sourceColumn: stock_level
+
+		annotation SummarizationSetBy = Automatic
+
+	column safety_stock_level
+		dataType: int64
+		formatString: 0
+		lineageTag: 06ddfd4b-4707-4481-862c-6ad97c81778c
+		summarizeBy: sum
+		sourceColumn: safety_stock_level
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorder_point
+		dataType: int64
+		formatString: 0
+		lineageTag: e842748f-26f0-45fb-9106-0a2055176531
+		summarizeBy: sum
+		sourceColumn: reorder_point
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_inventory = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files(Folder_Path),
+				    #"C:\Users\Acer\Downloads\Dataset\_fact_inventory csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="fact_inventory.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_fact_inventory csv",[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"inventory_id", Int64.Type}, {"date_key", Int64.Type}, {"product_id", Int64.Type}, {"facility_id", Int64.Type}, {"stock_level", Int64.Type}, {"safety_stock_level", Int64.Type}, {"reorder_point", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

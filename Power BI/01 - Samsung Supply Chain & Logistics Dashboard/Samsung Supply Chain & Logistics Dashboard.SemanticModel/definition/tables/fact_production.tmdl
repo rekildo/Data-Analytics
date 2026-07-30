@@ -1,0 +1,91 @@
+table fact_production
+	lineageTag: aa7ca321-89e6-4cc3-a53d-8ea2de135b20
+
+	column production_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e77769c7-e6fc-4d22-adea-b44850072996
+		summarizeBy: sum
+		sourceColumn: production_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 4dd62a49-6257-4759-b306-5119ed495bf1
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 52cf2c3b-a5c9-4b25-9afd-42289adba6b7
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a6c1e4f-45a9-4f04-b6cc-8479b83e20f4
+		summarizeBy: sum
+		sourceColumn: facility_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity_produced
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a476acd-f280-44c7-b46a-0c306870ce1e
+		summarizeBy: sum
+		sourceColumn: quantity_produced
+
+		annotation SummarizationSetBy = Automatic
+
+	column defective_units
+		dataType: int64
+		formatString: 0
+		lineageTag: de746a37-18bc-4850-8c54-313c89756851
+		summarizeBy: sum
+		sourceColumn: defective_units
+
+		annotation SummarizationSetBy = Automatic
+
+	column defect_rate_pct
+		dataType: double
+		lineageTag: 1ee0b67b-476d-4f45-a2db-5b285d886acd
+		summarizeBy: sum
+		sourceColumn: defect_rate_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column batch_number
+		dataType: string
+		lineageTag: 79457488-2b03-40df-af15-02d5dab47d30
+		summarizeBy: none
+		sourceColumn: batch_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_production = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_fact_production csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="fact_production.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_fact_production csv",[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"production_id", Int64.Type}, {"date_key", Int64.Type}, {"product_id", Int64.Type}, {"facility_id", Int64.Type}, {"quantity_produced", Int64.Type}, {"defective_units", Int64.Type}, {"defect_rate_pct", type number}, {"batch_number", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

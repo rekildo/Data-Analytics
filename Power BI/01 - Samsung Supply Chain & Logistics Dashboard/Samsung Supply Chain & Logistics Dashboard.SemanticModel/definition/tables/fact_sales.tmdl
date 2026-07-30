@@ -1,0 +1,151 @@
+table fact_sales
+	lineageTag: f536e8b3-d950-4ee3-80fa-e20c21e6798b
+
+	column sales_id
+		dataType: int64
+		formatString: 0
+		lineageTag: b7877ab0-e12b-48ff-88ef-a52826a41a4f
+		summarizeBy: sum
+		sourceColumn: sales_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: cb4fb398-16ee-4c4f-96e7-c04d6534f1fe
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 76ff5fc7-cfbc-43d2-8951-9a97402d8643
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4bcc6647-0c1b-4f63-a798-d9fdf2fae773
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity_sold
+		dataType: int64
+		formatString: 0
+		lineageTag: 512c2739-da14-4848-9a3e-f608413ded92
+		summarizeBy: sum
+		sourceColumn: quantity_sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 9e4102de-a0bd-439d-8097-b96d644753f5
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column discount_pct
+		dataType: int64
+		formatString: 0
+		lineageTag: 0400cd2f-fd60-4a90-be1c-aa36d9e323d6
+		summarizeBy: sum
+		sourceColumn: discount_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_amount
+		dataType: double
+		lineageTag: 6f33967c-b06b-4186-8ed0-67490a7d9e26
+		summarizeBy: sum
+		sourceColumn: discount_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 16272183-a78b-4067-bb0f-ea75f3f28ab8
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column net_revenue
+		dataType: double
+		lineageTag: a365c7e5-8122-488d-8a0f-88414323d89a
+		summarizeBy: sum
+		sourceColumn: net_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_cost
+		dataType: double
+		lineageTag: 1dd88e1d-1b5e-4bc6-ad6a-56b306b8177e
+		summarizeBy: sum
+		sourceColumn: total_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profit
+		dataType: double
+		lineageTag: 84b9d465-ad4f-4529-a27e-850497eaead6
+		summarizeBy: sum
+		sourceColumn: profit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profit_margin_pct
+		dataType: double
+		lineageTag: 9a11e4bc-5736-4a19-9e6e-e7061151c6ef
+		summarizeBy: sum
+		sourceColumn: profit_margin_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_number
+		dataType: string
+		lineageTag: 4ce46c05-8679-4630-ac50-fa799950cbfa
+		summarizeBy: none
+		sourceColumn: order_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sales = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_fact_sales csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="fact_sales.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_fact_sales csv",[Delimiter=",", Columns=14, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"sales_id", Int64.Type}, {"date_key", Int64.Type}, {"product_id", Int64.Type}, {"customer_id", Int64.Type}, {"quantity_sold", Int64.Type}, {"unit_price", type number}, {"discount_pct", Int64.Type}, {"discount_amount", type number}, {"gross_revenue", type number}, {"net_revenue", type number}, {"total_cost", type number}, {"profit", type number}, {"profit_margin_pct", type number}, {"order_number", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

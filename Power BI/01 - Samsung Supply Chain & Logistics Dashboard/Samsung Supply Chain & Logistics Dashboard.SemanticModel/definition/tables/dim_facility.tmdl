@@ -1,0 +1,85 @@
+table dim_facility
+	lineageTag: 66ef87e6-80c5-4790-8d60-f3354d266609
+
+	column facility_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a83e1fe9-04ce-4593-bd68-00c52b5b69f7
+		summarizeBy: none
+		sourceColumn: facility_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_key
+		dataType: string
+		lineageTag: 3880bad7-cf2b-4df4-a0b9-a61e39dc59ef
+		summarizeBy: none
+		sourceColumn: facility_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_name
+		dataType: string
+		lineageTag: 795a741d-bb20-4b5e-86d3-71a6be7cd958
+		summarizeBy: none
+		sourceColumn: facility_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: d0e4251e-b90b-4802-8867-474a442dcb24
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: a166fab0-fa14-48a6-9be8-53fa14247b94
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_type
+		dataType: string
+		lineageTag: 4c3b44c6-b597-48b5-9c21-579f468f3945
+		summarizeBy: none
+		sourceColumn: facility_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column specialization
+		dataType: string
+		lineageTag: 4592ab1b-eb0e-40ef-9e71-c7083ca2d2f8
+		summarizeBy: none
+		sourceColumn: specialization
+
+		annotation SummarizationSetBy = Automatic
+
+	column annual_capacity
+		dataType: int64
+		formatString: 0
+		lineageTag: f392793d-e0d9-46b8-85fd-d7681ddf9e53
+		summarizeBy: sum
+		sourceColumn: annual_capacity
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_facility = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_dim_facility csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="dim_facility.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_dim_facility csv",[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"facility_id", Int64.Type}, {"facility_key", type text}, {"facility_name", type text}, {"country", type text}, {"city", type text}, {"facility_type", type text}, {"specialization", type text}, {"annual_capacity", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

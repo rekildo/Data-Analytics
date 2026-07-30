@@ -1,0 +1,7 @@
+expression Folder_Path = "C:\Users\Acer\Downloads\Dataset\" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: e343e59d-0920-4dd3-a629-b969c5927c03
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

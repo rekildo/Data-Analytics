@@ -1,0 +1,134 @@
+table fact_shipment
+	lineageTag: e8b8f546-f57f-4141-9281-f6ff6e5216ec
+
+	column shipment_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 258e606f-602a-4f70-b759-e173e258092a
+		summarizeBy: sum
+		sourceColumn: shipment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: eb4dce10-5eaf-406c-8570-886bbe1dc0a2
+		summarizeBy: sum
+		sourceColumn: ship_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 86b3ee5b-f688-4689-ae03-2ab1dafefd54
+		summarizeBy: none
+		sourceColumn: delivery_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 12af5e16-5bb7-4557-acfc-db2aa0d24c67
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column facility_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7fa4bb5b-a997-4b41-9f1a-483a758417ca
+		summarizeBy: none
+		sourceColumn: facility_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d33a9db-5002-4051-bfc9-6f7dbfa41d49
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 23129d8f-3bff-45bd-bf7c-4b5cf2394ce8
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier
+		dataType: string
+		lineageTag: f24576e4-70a8-4a6c-9c1b-755b2f71db8b
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 08377c69-a0e2-48ee-9646-9a2482692532
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipping_cost
+		dataType: double
+		lineageTag: 2a4d3d9f-bdc0-4c93-9e5a-97a8ff5d40a4
+		summarizeBy: sum
+		sourceColumn: shipping_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_weight_kg
+		dataType: double
+		lineageTag: 8c148183-9952-4510-84fa-3875e21d9f2d
+		summarizeBy: sum
+		sourceColumn: total_weight_kg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tracking_number
+		dataType: string
+		lineageTag: 3caa3328-dd57-4b37-bcfc-c5ece1d3e7b9
+		summarizeBy: none
+		sourceColumn: tracking_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column delay_reason
+		dataType: string
+		lineageTag: 9ee43231-5e1b-46ff-83e9-4a139c0974a0
+		summarizeBy: none
+		sourceColumn: delay_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_shipment = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_fact_shipment csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="fact_shipment.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_fact_shipment csv",[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"shipment_id", Int64.Type}, {"ship_date_key", Int64.Type}, {"delivery_date_key", Int64.Type}, {"product_id", Int64.Type}, {"facility_id", Int64.Type}, {"customer_id", Int64.Type}, {"quantity", Int64.Type}, {"carrier", type text}, {"status", type text}, {"shipping_cost", type number}, {"total_weight_kg", type number}, {"tracking_number", type text}, {"delay_reason", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

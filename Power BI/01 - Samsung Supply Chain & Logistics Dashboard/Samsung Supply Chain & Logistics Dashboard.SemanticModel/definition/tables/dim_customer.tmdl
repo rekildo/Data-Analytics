@@ -1,0 +1,77 @@
+table dim_customer
+	lineageTag: 00a9e94d-ed79-4541-b15c-b9e7cbe69da6
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: fa62a636-b6a2-4d49-b833-652b4689cc88
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: string
+		lineageTag: c9522c04-9570-465a-8919-0bacbce28ac0
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: ece6c53a-86e8-4b9c-bbfb-95507cb4f2e5
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 44e3f126-213f-4fa3-a2d4-9001502f134f
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_type
+		dataType: string
+		lineageTag: 8b71a201-948d-40ee-bd56-54c286cb72d7
+		summarizeBy: none
+		sourceColumn: channel_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column size
+		dataType: string
+		lineageTag: 8d26a2e8-8321-4061-8869-068378e986c9
+		summarizeBy: none
+		sourceColumn: size
+
+		annotation SummarizationSetBy = Automatic
+
+	column annual_volume_usd
+		dataType: int64
+		formatString: 0
+		lineageTag: f43a845e-c05b-4dfe-9cc7-3dd4549c7a64
+		summarizeBy: sum
+		sourceColumn: annual_volume_usd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_dim_customer csv" = Source{[#"Folder Path"=Folder_Path,Name="dim_customer.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_dim_customer csv",[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"customer_id", Int64.Type}, {"customer_key", type text}, {"customer_name", type text}, {"country", type text}, {"channel_type", type text}, {"size", type text}, {"annual_volume_usd", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

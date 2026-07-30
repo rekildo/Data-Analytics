@@ -1,0 +1,135 @@
+table fact_procurement
+	lineageTag: db3dbcbc-6410-40d4-80b0-943deb802a2b
+
+	measure Total_Unit_Cost = SUM(fact_procurement[total_cost])
+		lineageTag: 3387a3e1-9eca-4f9a-9d84-29db4ebbe623
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_Quality_Score = AVERAGE(fact_procurement[quality_score])
+		lineageTag: 6f8b5a72-5540-4df2-8bd3-ad87bff0aa1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_Unit_Cost = AVERAGE(dim_product[unit_cost])
+		lineageTag: fbfc398a-1858-4801-886d-50d6eb897564
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column procurement_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 69e0a087-ece7-48db-bfd5-7dc9109ceedd
+		summarizeBy: sum
+		sourceColumn: procurement_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 396b6345-169e-4166-9fa1-ccf49201270d
+		summarizeBy: sum
+		sourceColumn: order_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 3564b8ff-0b60-4e40-9734-593687439053
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 51243945-ff95-4ade-a924-8014e59c1bf3
+		summarizeBy: none
+		sourceColumn: supplier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 8707e590-715e-454a-8c88-5186c96e8f70
+		summarizeBy: sum
+		sourceColumn: order_quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_cost
+		dataType: double
+		lineageTag: 420124aa-1e18-4ac4-9440-b80a0279f1cd
+		summarizeBy: sum
+		sourceColumn: unit_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_cost
+		dataType: double
+		lineageTag: bd69501a-f370-4fb2-bee7-73f68a7a4309
+		summarizeBy: sum
+		sourceColumn: total_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column lead_time_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 68c55243-8644-4151-ac76-af74c5b4039f
+		summarizeBy: sum
+		sourceColumn: lead_time_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: a806dc3d-f10a-4aa6-9ef4-0d2f102c9127
+		summarizeBy: none
+		sourceColumn: delivery_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column quality_score
+		dataType: double
+		lineageTag: e992d025-6459-436d-a450-56939c9ec7a6
+		summarizeBy: sum
+		sourceColumn: quality_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column po_number
+		dataType: string
+		lineageTag: 32d71da1-750b-43c4-8894-b0f4639da7c2
+		summarizeBy: none
+		sourceColumn: po_number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_procurement = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_fact_procurement csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="fact_procurement.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_fact_procurement csv",[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"procurement_id", Int64.Type}, {"order_date_key", Int64.Type}, {"product_id", Int64.Type}, {"supplier_id", Int64.Type}, {"order_quantity", Int64.Type}, {"unit_cost", type number}, {"total_cost", type number}, {"lead_time_days", Int64.Type}, {"delivery_date_key", Int64.Type}, {"quality_score", type number}, {"po_number", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

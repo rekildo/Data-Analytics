@@ -1,0 +1,86 @@
+table dim_supplier
+	lineageTag: 75eea45f-1b4f-48a4-95bf-58a0d4ce7ca9
+
+	column supplier_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 81952408-52a7-4dd3-abd6-bbfdff54b934
+		summarizeBy: none
+		sourceColumn: supplier_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_key
+		dataType: string
+		lineageTag: 5335e750-62f9-4ab5-9fbd-36322bc67fb6
+		summarizeBy: none
+		sourceColumn: supplier_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column supplier_name
+		dataType: string
+		lineageTag: 1687354d-6cc1-413b-8fb5-805b18e72c01
+		summarizeBy: none
+		sourceColumn: supplier_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 3d5ea201-6482-4dcf-b8eb-2a67bfb38639
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: fefd768f-ed38-4ba5-a4fe-940ea8a6917d
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column specialty
+		dataType: string
+		lineageTag: d2b2a697-d460-4084-a0d8-a66467f209fc
+		summarizeBy: none
+		sourceColumn: specialty
+
+		annotation SummarizationSetBy = Automatic
+
+	column tier
+		dataType: string
+		lineageTag: f4f73352-018f-4670-a29e-9378ed293d12
+		summarizeBy: none
+		sourceColumn: tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_quality_score
+		dataType: double
+		lineageTag: 18429935-9aef-474b-bf3d-1b5ba636617d
+		summarizeBy: none
+		sourceColumn: avg_quality_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_supplier = m
+		mode: import
+		source =
+				let
+				    Source = Folder,
+				    #"C:\Users\Acer\Downloads\Dataset\_dim_supplier csv" = Source{[#"Folder Path"="C:\Users\Acer\Downloads\Dataset\",Name="dim_supplier.csv"]}[Content],
+				    #"Imported CSV" = Csv.Document(#"C:\Users\Acer\Downloads\Dataset\_dim_supplier csv",[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Imported CSV", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"supplier_id", Int64.Type}, {"supplier_key", type text}, {"supplier_name", type text}, {"country", type text}, {"city", type text}, {"specialty", type text}, {"tier", type text}, {"avg_quality_score", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,48 @@
+table Cost_Qty_Supplier
+	lineageTag: 7b3ab051-ba13-4996-a4aa-0e1d805d8da1
+
+	column Cost_Qty_Supplier
+		lineageTag: 5f5a2367-33de-48fa-b73f-b3f5aa218fa1
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Cost_Qty_Supplier Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Cost_Qty_Supplier Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost_Qty_Supplier Fields'
+		isHidden
+		lineageTag: 6dfc6918-4c61-443b-82bc-f088a7fc2c56
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Cost_Qty_Supplier Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cost_Qty_Supplier Order'
+		isHidden
+		formatString: 0
+		lineageTag: ab64bd91-f746-4a85-a2db-dffa9db0733f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cost_Qty_Supplier = calculated
+		mode: import
+		source =
+				{
+				    ("Unit Cost", NAMEOF([Total_Unit_Cost]), 0),
+				    ("Order Quantity", NAMEOF('MeasureTable'[Order_Quantity]), 1)
+				}
+
+	annotation PBI_Id = 1c7bd235557b436e99f425fbf14871c2
+

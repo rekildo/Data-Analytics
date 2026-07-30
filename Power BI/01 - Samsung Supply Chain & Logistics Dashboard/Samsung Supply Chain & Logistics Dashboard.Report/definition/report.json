@@ -1,0 +1,119 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY26SU05",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Custom_Theme08478696640872152.json",
+      "reportVersionAtImport": {
+        "visual": "2.10.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY26SU05",
+          "path": "BaseThemes/CY26SU05.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Copy_of_20260111_0215_Image_Ge08006968029293526.png",
+          "path": "Copy_of_20260111_0215_Image_Ge08006968029293526.png",
+          "type": "Image"
+        },
+        {
+          "name": "Copy_of_20260111_0215_Image_Ge41943901204532874.png",
+          "path": "Copy_of_20260111_0215_Image_Ge41943901204532874.png",
+          "type": "Image"
+        },
+        {
+          "name": "Copy_of_20260111_0215_Image_Ge9918049330818592.png",
+          "path": "Copy_of_20260111_0215_Image_Ge9918049330818592.png",
+          "type": "Image"
+        },
+        {
+          "name": "Copy_of_20260111_0351_Image_Ge5329989535249362.png",
+          "path": "Copy_of_20260111_0351_Image_Ge5329989535249362.png",
+          "type": "Image"
+        },
+        {
+          "name": "Custom_Theme08478696640872152.json",
+          "path": "Custom_Theme08478696640872152.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "s2648346438212134824.webp",
+          "path": "s2648346438212134824.webp",
+          "type": "Image"
+        },
+        {
+          "name": "samsung5835568960476227.png",
+          "path": "samsung5835568960476227.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": true,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isApplyAllButtonEnabled": true
+  }
+}

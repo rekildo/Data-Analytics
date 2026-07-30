@@ -1,0 +1,158 @@
+table MeasureTable
+	lineageTag: 62dcb806-a9ea-456e-a043-563ebb1e88c0
+
+	measure Total_Revenue = Sum(fact_sales[net_revenue])
+		lineageTag: dc3d7f07-7cfd-4e7b-a45b-e120a8cb1097
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Profit = SUM(fact_sales[profit])
+		lineageTag: 3ceff6a0-712f-43da-bff9-f8c827ea2ba3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Margin %' = DIVIDE([Profit],[Total_Revenue])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 86a28d74-3cd0-4270-b916-a9352aadac52
+
+	measure Total_Sales_Quantity = ```
+			SUM(fact_sales[quantity_sold])
+			
+			```
+		formatString: 0
+		lineageTag: 3705b936-3d9c-4694-8702-03326e7609fd
+
+	measure Total_Sales_Cost = SUM(fact_procurement[total_cost])
+		lineageTag: 70e90d6e-40b9-4a9c-bc16-269f3b6f5123
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Invertoy_Value = SUM(fact_inventory[stock_level])
+		formatString: 0
+		lineageTag: 9300edd4-87ac-42b5-b3ee-78bc6f45b9cc
+
+	measure Average_Lead_Time = AVERAGE(fact_procurement[lead_time_days])
+		lineageTag: d32ca563-fa68-4577-971d-9c3d0734d6cd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Shipments = DISTINCTCOUNT(fact_shipment[shipment_id])
+		formatString: 0
+		lineageTag: 90b18256-9e9a-4339-9f32-9773784404a6
+
+	measure 'Perfect_Order %' =
+			
+			var perfectOrder = CALCULATE([Total_Shipments], fact_shipment[status]="Delivered",fact_production[defect_rate_pct]<1)
+			return DIVIDE(perfectOrder,[Total_Shipments])
+		formatString: 0%;-0%;0%
+		lineageTag: 0602b3cf-7c2b-47f7-a76e-f5eb85eb26b4
+
+	measure Order_Quantity = ```
+			SUM(fact_procurement[order_quantity])
+			
+			```
+		formatString: 0
+		lineageTag: fdbd3b3a-3443-4900-ac6e-de624e79fd73
+
+	measure Inventory_Value = SUM(fact_inventory[stock_level])
+		formatString: 0
+		lineageTag: b08fb377-9586-4b0a-b44b-f61e0fbfeb3c
+
+	measure Total_Shipment_Quantity = SUM(fact_shipment[quantity])
+		formatString: 0
+		lineageTag: 97803bc1-bf91-40cb-9a70-602a941fead5
+
+	measure Total_Delivery_Quantity = CALCULATE([Total_Sales_Quantity],fact_shipment[status]="Delivered")
+		formatString: 0
+		lineageTag: 16e2cef2-0ad7-4ab3-a7e1-1bc053cd0b77
+
+	measure Total_Delay = CALCULATE([Total_Shipments],fact_shipment[status]="Delayed")
+		formatString: 0
+		lineageTag: 6eecff80-a27f-4cc3-b4f8-61e5de80c809
+
+	measure Defect_Rate = ```
+			SUM(fact_production[defective_units])
+			
+			```
+		formatString: 0
+		lineageTag: 5454b107-7e76-4bad-83f2-50ac6408d963
+
+	measure Safety_Stock = SUM(fact_inventory[safety_stock_level])
+		formatString: 0
+		lineageTag: b3cbb02a-3235-49c7-bd2d-5f1a8a5b9122
+
+	measure Total_QTY_Delay = CALCULATE([Total_Sales_Quantity],fact_shipment[status]="Delayed")
+		formatString: 0
+		lineageTag: 11c39efc-7314-43d0-ae57-7898a925d36a
+
+	measure 'Turnover Rate' = DIVIDE([Total_Sales_Quantity],AVERAGE(fact_inventory[stock_level]))
+		formatString: 0
+		lineageTag: 4057d3da-2ebd-462a-9bd0-97c7e7533622
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Days_of_Inventory = DIVIDE(365,[Turnover Rate])
+		formatString: 0
+		lineageTag: d3770498-df7c-4f39-ab4d-ca96efee6670
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Reorder Point' = ```
+			SUM(fact_inventory[reorder_point])
+			
+			```
+		formatString: 0
+		lineageTag: 010ffec8-9600-42f4-ad85-59e4fd827bdc
+
+	measure Shipment_Cost = SUM(fact_shipment[shipping_cost])
+		lineageTag: 51c1a6a8-4678-4ee4-b591-b1fa1a4f9ae2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_Delivery_Shipments = CALCULATE([Total_Shipments],fact_shipment[status]="Delivered")
+		formatString: 0
+		lineageTag: b3c1e7b5-8bde-4f92-bfef-58f86e6c2128
+
+	measure 'Delivered %' = DIVIDE([Total_Delivery_Shipments],[Total_Shipments])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 5b0aff03-5fdc-4f7e-a16b-8b9c9443680c
+
+	measure Growth_Revenue =
+			
+			var curr_rev = [Total_Revenue]
+			Var prev_rev = CALCULATE([Total_Revenue],SAMEPERIODLASTYEAR(dim_date[date]))
+			RETURN
+			    DIVIDE(curr_rev-prev_rev,prev_rev)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0871bff8-fea9-4968-a689-d843d6854b34
+
+	measure discount = SUM(fact_sales[discount_amount])
+		lineageTag: d1721925-7a4c-42e3-a989-49dc1ad6a61a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Discount %' =
+			
+			var prod_amt = [discount] + [Total_Revenue]
+			RETURN
+			    DIVIDE([discount],prod_amt)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f3be6c93-9822-4e4e-be76-fcffd913fdbd
+
+	column Column
+		formatString: 0
+		lineageTag: 3340ef08-b9f6-4ba3-9024-865f184f3041
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MeasureTable = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 4c789256da014a54952ff43084b050ef
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

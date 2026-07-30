@@ -1,0 +1,80 @@
+relationship 10744779-43d9-48f6-9239-e6090bcb759f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Folder.'Date accessed'
+	toColumn: LocalDateTable_4b06c3a2-9c20-4f65-8190-74b2a6fc8d77.Date
+
+relationship d4f32eb8-c7ab-48a0-98a2-42b3ec7de9ea
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Folder.'Date modified'
+	toColumn: LocalDateTable_c8010156-4c49-476f-9c47-678adc2292d0.Date
+
+relationship aa7bd504-a245-489b-9bda-7dfb046f85be
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Folder.'Date created'
+	toColumn: LocalDateTable_8ed77e31-42e3-4e9c-b725-79a1c3c96e87.Date
+
+relationship 18681bd1-df42-4e53-aee8-04553279e89b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_date.date
+	toColumn: LocalDateTable_a770d693-9d56-4f7c-9ed6-6b36f9c6e9d3.Date
+
+relationship 981e348f-06e5-3e80-7222-e9514fa7bd6c
+	fromColumn: fact_sales.product_id
+	toColumn: dim_product.product_id
+
+relationship 3608aa7c-8172-92a6-2377-ae886248a7e9
+	fromColumn: fact_inventory.product_id
+	toColumn: dim_product.product_id
+
+relationship 5e9c4ec5-bf1a-917b-a505-30951c358726
+	fromColumn: fact_shipment.product_id
+	toColumn: dim_product.product_id
+
+relationship 45f694e2-2b41-68a6-f974-a1515681efcb
+	fromColumn: fact_procurement.product_id
+	toColumn: dim_product.product_id
+
+relationship 69d5bbdf-bf67-3dea-8272-8c3d1a7ce653
+	fromColumn: fact_production.product_id
+	toColumn: dim_product.product_id
+
+relationship 8190690a-4339-89bb-9741-60855d08b67e
+	fromColumn: fact_sales.customer_id
+	toColumn: dim_customer.customer_id
+
+relationship db1c31f6-b2d5-969a-d3da-b03129689a7b
+	fromColumn: fact_shipment.customer_id
+	toColumn: dim_customer.customer_id
+
+relationship 87cd473f-272e-0745-d36a-b7dbd0a93526
+	fromColumn: fact_procurement.supplier_id
+	toColumn: dim_supplier.supplier_id
+
+relationship 3d2df181-a4ea-a596-2964-93ec1d4b142f
+	fromColumn: fact_sales.date_key
+	toColumn: dim_date.date_key
+
+relationship 3e9ce358-4da1-5592-a4e4-22006fcf7506
+	fromColumn: fact_inventory.date_key
+	toColumn: dim_date.date_key
+
+relationship 80cfbb10-c97f-b37e-e5e5-b2a5f7db1925
+	fromColumn: fact_shipment.delivery_date_key
+	toColumn: dim_date.date_key
+
+relationship 02372ae4-3df2-6019-1afd-ca6b01c308f1
+	fromColumn: fact_procurement.delivery_date_key
+	toColumn: dim_date.date_key
+
+relationship ef3235cf-0c95-1d38-0b4d-3ea7531d8cae
+	fromColumn: fact_production.date_key
+	toColumn: dim_date.date_key
+
+relationship 765c093d-bf7c-a73b-8c31-3bb3342d819e
+	fromColumn: fact_inventory.facility_id
+	toColumn: dim_facility.facility_id
+
+relationship 3781aae9-a58f-0ac2-9899-18fd017030e0
+	fromColumn: fact_shipment.facility_id
+	toColumn: dim_facility.facility_id
+
